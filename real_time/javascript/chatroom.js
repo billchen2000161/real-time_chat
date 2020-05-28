@@ -2,10 +2,10 @@ var chatrooom = new function () {
     let component = this;
     let socket;
 
-
+    //type 0:text 1:image_file 2:text_file
     let current_file = {
         name: '',
-        type: '',
+        type: 0,
         size: ''
     }
 
@@ -18,7 +18,13 @@ var chatrooom = new function () {
             socket = new WebSocket(websocket_api + user.name + '/' + user.current_room);
 
             socket.onmessage = function (event) {
-                component.text_template(une_message);
+                let res_message = JSON.parse(event.data);
+                if (res_message.type == 0) {
+                    component.text_template(res_message.msg);
+                    return;
+                }
+                component.file_template(res_message.msg,res_message.type);
+
             };
             socket.onopen = function (event) {
                 component.text_template('connect open!!');
@@ -67,17 +73,30 @@ var chatrooom = new function () {
             addnotify('upload fail,please try again');
             return;
         }
-        component.file_template(current_file.type, current_file.name)
+        component.send(current_file.name, current_file.type);
+        //component.file_template(current_file.type, current_file.name)
     }
 
-    component.file_template = (file_type, file_name) => {
-        if (file_type.indexOf('image') >= 0) {
-            let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl + file_name}></a>`
-            $('#chatarea').append(addimg);
-            return;
+    component.file_template = (file_name, file_type) => {
+        let addimg;
+        switch (file_type) {
+            case 1:
+                addimg = `<a href = ${download_url + file_name}><img src = ${fileurl + file_name}></a>`
+                break;
+            case 2:
+                addimg = `<a href = ${download_url + file_name}><img src = ${fileurl}document.png></a>`
+                break;
+            default:
+                console.log('wrong file type');
         }
-        let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl}document.png></a>`
         $('#chatarea').append(addimg);
+        // if (file_type.indexOf('image') >= 0) {
+        //     let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl + file_name}></a>`
+        //     $('#chatarea').append(addimg);
+        //     return;
+        // }
+        // let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl}document.png></a>`
+        // $('#chatarea').append(addimg);
 
     }
 
@@ -95,10 +114,16 @@ var chatrooom = new function () {
 
         $("#filename").on('change', (event) => {
             const file = event.target.files[0];
+            
             current_file.name = file.name;
             current_file.size = file.size;
-            current_file.type = file.type;
             current_file.file = file;
+            if (file.type.indexOf('image') > -1) {
+                current_file.type = 1;
+            }
+            else if (file.type.indexOf('text') > -1) {
+                current_file.type = 2;
+            }
         })
     }
 
