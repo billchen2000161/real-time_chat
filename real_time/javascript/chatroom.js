@@ -1,0 +1,111 @@
+var chatrooom = new function () {
+    let component = this;
+    let socket;
+
+
+    let current_file = {
+        name: '',
+        type: '',
+        size: ''
+    }
+
+    if (!window.WebSocket) {
+        window.WebSocket = window.MozWebSocket;
+    }
+
+    component.socketinit = () => {
+        if (window.WebSocket) {
+            socket = new WebSocket(websocket_api + user.name + '/' + user.current_room);
+
+            socket.onmessage = function (event) {
+                component.text_template(une_message);
+            };
+            socket.onopen = function (event) {
+                component.text_template('connect open!!');
+            };
+            socket.onclose = function (event) {
+                component.text_template('connect close!!');
+                component.socket_reconnect();
+            };
+
+        } else {
+            alert("你的瀏覽器不支援 WebSocket！");
+        }
+    }
+
+    component.socket_reconnect = () => {
+        console.log("socket 連線斷開,正在嘗試重新建立連線");
+        component.socketinit();
+    }
+
+    component.send = (message, trans_type) => {
+        console.log('work');
+        if (!window.WebSocket) {
+            return;
+        }
+        if (socket.readyState == WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                msg: message,
+                type: trans_type
+            }));
+        } else {
+            alert("連線沒有開啟.");
+        }
+    }
+
+    component.sendfile = async () => {
+        const file = current_file.file;
+        if ((current_file.size / 1024 / 1024).toFixed(2) > 2) {
+            addnotify('File can not over 2MB');
+            return;
+        }
+        let form = new FormData();
+        form.append("file", file)
+        let result = await fetch(api + 'upload', { method: 'POST', body: form });
+        result = result.json();
+        if (result.datatype == 0) {
+            addnotify('upload fail,please try again');
+            return;
+        }
+        component.file_template(current_file.type, current_file.name)
+    }
+
+    component.file_template = (file_type, file_name) => {
+        if (file_type.indexOf('image') >= 0) {
+            let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl + file_name}></a>`
+            $('#chatarea').append(addimg);
+            return;
+        }
+        let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl}document.png></a>`
+        $('#chatarea').append(addimg);
+
+    }
+
+    component.text_template = (data) => {
+        let text = `<span class = 'badge badge-pill badge-primary'>${data}</span><br>`
+        $("#chatarea").append(text);
+    }
+
+    component.RegisterListenEvent = () => {
+        $("#send_text").on('click', (event) => {
+            component.send($("#message").value, 0)
+        })
+
+        $("#send_file").on('click', component.sendfile)
+
+        $("#filename").on('change', (event) => {
+            const file = event.target.files[0];
+            current_file.name = file.name;
+            current_file.size = file.size;
+            current_file.type = file.type;
+            current_file.file = file;
+        })
+    }
+
+
+};
+
+(function () {
+    chatrooom.socketinit();
+    chatrooom.RegisterListenEvent();
+})();

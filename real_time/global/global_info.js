@@ -1,5 +1,7 @@
 var api = 'http://127.0.0.1:3000/';
 var websocket_api = "ws://localhost:8080/";
+var download_url = `${api}download/?filename=`
+var fileurl = `${api}file/`
 
 var user = {
     account: '',

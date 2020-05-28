@@ -23,5 +23,5 @@ $("#username").on('change', (event) => {
 
 $('#chatlist').click((e) => {
     user.current_room = $(e.target).text();
-    loadpage('./ws_test.html', 'chatroom');
+    loadpage('./chatroom.html', 'chatroom');
 });
