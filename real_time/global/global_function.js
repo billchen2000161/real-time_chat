@@ -40,6 +40,10 @@ var httpfordata = (url, data, method, callback) => {
 }
 
 var addnotify = (content) => {
-    const notify = '<span class = "float-right">' + content + '</span>'
+    const notify = '<div class = "alert alert-warning role = "alert">' + content + '<span class="float-right">x</span></div>'
     $("#notify").html(notify);
+}
+
+var removenotify = () => {
+    $("#notify").html('');
 }

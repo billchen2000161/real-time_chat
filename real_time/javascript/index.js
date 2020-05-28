@@ -2,14 +2,14 @@ let get_chatlist = () => {
     httpfordata(api + 'chatlist', user, 'POST', chatlist);
 }
 
-let chatlist = (member) => {
+let chatlist = (topic) => {
     //init chatroom 
     $('#chatlist').html('');
 
     //build chatlist
-    for (let index in member) {
-        let id = member[index];
-        let item = "<button type='button' class='list-group-item list-group-item-action' id = " + id + ">" + id + "</button>"
+    for (let index in topic) {
+        let id = topic[index];
+        let item = `<button class = "list-group-item btn">${id}</button>`;
         $('#chatlist').append(item);
     }
 }

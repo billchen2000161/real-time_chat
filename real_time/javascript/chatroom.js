@@ -19,6 +19,7 @@ var chatrooom = new function () {
 
             socket.onmessage = function (event) {
                 let res_message = JSON.parse(event.data);
+                console.log(res_message)
                 if (res_message.type == 0) {
                     component.text_template(res_message.msg);
                     return;
@@ -27,10 +28,10 @@ var chatrooom = new function () {
 
             };
             socket.onopen = function (event) {
-                component.text_template('connect open!!');
+                addnotify('connect open!!');
             };
             socket.onclose = function (event) {
-                component.text_template('connect close!!');
+                addnotify('connect close!!');
                 component.socket_reconnect();
             };
 
@@ -45,7 +46,6 @@ var chatrooom = new function () {
     }
 
     component.send = (message, trans_type) => {
-        console.log('work');
         if (!window.WebSocket) {
             return;
         }
@@ -54,6 +54,7 @@ var chatrooom = new function () {
                 msg: message,
                 type: trans_type
             }));
+            
         } else {
             alert("連線沒有開啟.");
         }
@@ -74,7 +75,6 @@ var chatrooom = new function () {
             return;
         }
         component.send(current_file.name, current_file.type);
-        //component.file_template(current_file.type, current_file.name)
     }
 
     component.file_template = (file_name, file_type) => {
@@ -90,40 +90,43 @@ var chatrooom = new function () {
                 console.log('wrong file type');
         }
         $('#chatarea').append(addimg);
-        // if (file_type.indexOf('image') >= 0) {
-        //     let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl + file_name}></a>`
-        //     $('#chatarea').append(addimg);
-        //     return;
-        // }
-        // let addimg = `<a href = ${download_url + file_name}><img src = ${fileurl}document.png></a>`
-        // $('#chatarea').append(addimg);
 
     }
 
     component.text_template = (data) => {
-        let text = `<span class = 'badge badge-pill badge-primary'>${data}</span><br>`
+        let text = `<span class = 'badge badge-pill badge-primary'>${user.name}:${data}</span><br>`
         $("#chatarea").append(text);
     }
 
     component.RegisterListenEvent = () => {
-        $("#send_text").on('click', (event) => {
-            component.send($("#message").value, 0)
+
+        $("#send_text").on('click', async(event) => {
+            if(current_file.name == ''){
+                component.send($("#message").val(), 0);
+                $("#message").val('');
+                return;
+            }
+            await component.sendfile();
+            current_file.name = '';
         })
 
-        $("#send_file").on('click', component.sendfile)
-
-        $("#filename").on('change', (event) => {
+        $("#file-input").on('change', (event) => {
             const file = event.target.files[0];
-            
             current_file.name = file.name;
             current_file.size = file.size;
             current_file.file = file;
+
             if (file.type.indexOf('image') > -1) {
                 current_file.type = 1;
             }
             else if (file.type.indexOf('text') > -1) {
                 current_file.type = 2;
             }
+        })
+        $("#notify").on('click',removenotify);
+
+        $("#send_file").on('click', () => {
+            $('#file-input').trigger('click');
         })
     }
 
