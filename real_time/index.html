@@ -16,17 +16,23 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
 <body>
-    <div class="container">
+    <div class="container" style="height: 100%;">
         <div class="row">
             <div class="col">
-                <div class="input-group">
+                <div class="card" style="width: 18rem;">
+                    <input id="username" type="text" class="form-control mr-sm-2" placeholder="type your name">
+                    <div class="card-body">
+                        <p class="card-text" id="username_space"></p>
+                    </div>
+                </div>
+                <!-- <div class="input-group">
                     <span id="username_space"></span><br>
                     <input id="username" type="text" class="form-control" placeholder="type your name">
-                </div>
+                </div> -->
                 <div class="list-group" id="chatlist"></div>
             </div>
             <div class="col">
-                <ul id="chatroom" class="list-group list-group-flush"></ul>
+                <div id="chatroom" class="list-group list-group-flush"></div>
             </div>
         </div>
     </div>
