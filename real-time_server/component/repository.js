@@ -37,7 +37,7 @@ var querySql = async function (sql, params) {//寫sql語句自由查詢
     return result;
 };
 
-var add = async function (addObj, tableName) {//新增資料
+var add = async function (addObj, tableName, date) {//新增資料
     if (!addObj) {
         return;
     }
@@ -52,6 +52,9 @@ var add = async function (addObj, tableName) {//新增資料
         } else if (typeof addObj[index] == "string") {
             request.input(index, mssql.NVarChar, addObj[index]);
         }
+        else if (index == "recordtime") {
+            request.input(index, mssql.DateTime, addObj[index]);
+        }
         sql += index + ",";
     }
     sql = sql.substring(0, sql.length - 1) + ") values(";
@@ -59,6 +62,9 @@ var add = async function (addObj, tableName) {//新增資料
         if (typeof addObj[index] == "number") {
             sql += "@" + index + ",";
         } else if (typeof addObj[index] == "string") {
+            sql += "@" + index + ",";
+        }
+        else if (index == "recordtime") {
             sql += "@" + index + ",";
         }
     }
