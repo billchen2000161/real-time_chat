@@ -24,6 +24,10 @@ var chatrooom = new function () {
                     component.text_template(res_message.msg);
                     return;
                 }
+                else if(res_message.type == -1){
+                    addnotify('websocket send fail');
+                    return;
+                }
                 component.file_template(res_message.msg,res_message.type);
 
             };
