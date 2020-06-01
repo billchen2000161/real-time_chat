@@ -42,12 +42,14 @@ let websocketinit = () => {
             } catch (err) {
                 console.log('DB save fail');
             }
+            req_msg["sender"] = ws.id;
+
 
             // send msg to client that in the same room 
             server.clients.forEach(function each(client) {
                 if (client.room == ws.room) {
                     try {
-                        client.send(message);
+                        client.send(JSON.stringify(req_msg));
                     } catch (err) {
                         client.send({ msg: 'socket message fail', type: -1 });
                     }

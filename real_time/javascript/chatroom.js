@@ -21,7 +21,7 @@ var chatrooom = new function () {
                 let res_message = JSON.parse(event.data);
                 console.log(res_message)
                 if (res_message.type == 0) {
-                    component.text_template(res_message.msg);
+                    component.text_template(res_message.sender,res_message.msg);
                     return;
                 }
                 else if(res_message.type == -1){
@@ -110,8 +110,8 @@ var chatrooom = new function () {
 
     }
 
-    component.text_template = (data) => {
-        let text = `${user.name}:<span class = 'badge badge-pill badge-primary'>${data}</span><br>`
+    component.text_template = (sender,data) => {
+        let text = `${sender}:<span class = 'badge badge-pill badge-primary'>${data}</span><br>`
         $("#chatarea").append(text);
     }
 
