@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- <script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.js"></script> -->
+<link rel="stylesheet" href="./style/chatroom.css">
+
+<body>
+    <div class="container">
+        <div id="notify"></div>
+        <h3 id="topic">WebSocket 聊天室：</h3>
+        <!-- <textarea id="responseText" style="width: 500px; height: 300px;"><p>message</p></textarea> -->
+        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" id="chatarea" class="">
+        </div>
+        <br>
+        <footer class="page-footer">
+            <div class="input-group mb-3">
+                <input type="text" id="message" class="form-control" placeholder="Recipient's username"
+                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="send_text">send</button>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="send_file">send file</button>
+                </div>
+            </div>
+        </footer>
+            <br>
+            <input type="file" class="custom-file-input" id="file-input" accept="image/*" style="display: none;">
+    </div>
+    
+</body>
+<script src="./javascript/chatroom.js"></script>
+
+</html>
