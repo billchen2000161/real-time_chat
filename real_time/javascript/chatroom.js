@@ -69,6 +69,7 @@ var chatrooom = new function () {
                 component.file_template(element.username, element.message, element.type);
             }
         });
+        $('#chatarea').scrollTop( $('#chatarea')[0].scrollHeight);
     }
 
     component.send = (message, trans_type) => {
@@ -174,6 +175,7 @@ var chatrooom = new function () {
 
         $(document).ready(() => {
             $("#topic").text(user.current_room);
+            
         });
 
         $("#message").on('keypress', async function (e) {
