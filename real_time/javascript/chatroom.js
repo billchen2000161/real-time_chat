@@ -61,7 +61,6 @@ var chatrooom = new function () {
 
     component.history_record_callback = (res) => {
         res.forEach(element => {
-            console.log(element.recordtime + ': '+ element.type);
             if (element.type == 0) {
                 component.text_template(element.username, element.message);
             }
@@ -91,8 +90,7 @@ var chatrooom = new function () {
         const file = current_file.file;
         let form = new FormData();
         form.append("file", file)
-        let result = await fetch(api + 'upload', { method: 'POST', body: form });
-        result = result.json();
+        let result = await fetch(api + 'upload', { method: 'POST', body: form }).then(res => res.json());
         if (result.datatype == 0) {
             addnotify('upload fail,please try again');
             return;
@@ -185,8 +183,6 @@ var chatrooom = new function () {
         });
 
     }
-
-
 };
 
 (function () {

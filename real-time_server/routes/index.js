@@ -17,9 +17,10 @@ router.post('/chatlist', async(req,res) => {
 router.post('/upload', (req, res) => {
   savefile.save(req,res,function (err) {
     if (err) {
+      console.log('can not save the file');
       return res.json({datatype: 0});
     }
-    res.json({ datatype: 1});
+    res.json({datatype: 1});
   });
 })
 
