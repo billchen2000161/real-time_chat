@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const fs = require('fs');
 
-let moment = require('moment');
+let websocket_service = require('./websocket_service');
 let db = require('../DB/repository');
 
 var server;
@@ -30,21 +30,9 @@ let websocketinit = () => {
         ws.room = url[2];
 
         ws.on('message', function incoming(message) {
-            let date = moment(Date.now()).format('YYYY-MM-DDTHH:mm:ss.SSS');
             let req_msg = JSON.parse(message);
-            try {
-                db.add({
-                    username: ws.id,
-                    message: req_msg.msg,
-                    recordtime: date,
-                    room: ws.room,
-                    type:req_msg.type
-                }, 'chat_record');
-            } catch (err) {
-                console.log('DB save fail');
-            }
             req_msg["sender"] = ws.id;
-
+            websocket_service.save_message(ws.id, ws.room, req_msg.msg, req_msg.type);
 
             // send msg to client that in the same room 
             server.clients.forEach(function each(client) {
@@ -54,7 +42,6 @@ let websocketinit = () => {
                     } catch (err) {
                         client.send({ msg: 'socket message fail', type: -1 });
                     }
-
                 }
             });
 
@@ -67,7 +54,7 @@ let websocket_reconnect = () => {
     console.log("socket 連線斷開,正在嘗試重新建立連線");
     websocketinit();
 };
-(function(){
+(function () {
     websocketinit();
 })();
 

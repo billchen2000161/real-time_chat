@@ -1,4 +1,15 @@
-.chatarea img{
-    width:30px;
-    height:30px;
+#chatarea img{
+    width:150px;
+    height:120px;
 }
+
+#chatarea{
+    padding: 15px;
+    overflow-y: scroll;
+    height: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+  }
