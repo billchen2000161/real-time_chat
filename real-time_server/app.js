@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
-require("./component/websocket");
+require("./websocket/websocket");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

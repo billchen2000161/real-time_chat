@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 let chatroom_service = require('../component/chatroom');
 var savefile = require('../component/file');
+let history = require('../component/history_record');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -27,5 +28,7 @@ router.get('/download', (req, res) => {
   let file = 'public/file/'+req.query.filename;
   res.download(file);
 })
+
+router.post('/history', history)
 
 module.exports = router;

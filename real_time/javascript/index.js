@@ -7,11 +7,11 @@ let chatlist = (topic) => {
     $('#chatlist').html('');
 
     //build chatlist
-    for (let index in topic) {
-        let id = topic[index];
+    topic.forEach(element => {
+        let id = element.Room;
         let item = `<button class = "list-group-item btn">${id}</button>`;
         $('#chatlist').append(item);
-    }
+    });
 }
 
 $("#username").on('change', (event) => {

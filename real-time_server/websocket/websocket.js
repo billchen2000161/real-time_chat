@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const fs = require('fs');
 
 let moment = require('moment');
-let db = require('./repository');
+let db = require('../DB/repository');
 
 var server;
 let websocketinit = () => {
@@ -37,7 +37,8 @@ let websocketinit = () => {
                     username: ws.id,
                     message: req_msg.msg,
                     recordtime: date,
-                    room: ws.room
+                    room: ws.room,
+                    type:req_msg.type
                 }, 'chat_record');
             } catch (err) {
                 console.log('DB save fail');

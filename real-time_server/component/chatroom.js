@@ -1,9 +1,7 @@
-let db = require('./repository');
-let arraytojson = require('./arrayTojson')
+let db = require('../DB/repository');
 let roomlist = async () => {
     let result = await db.querySql('select Room from chatroom');
-    let result_json = arraytojson.arraytojson(result.recordset);
-    return result_json;
+    return result.recordset;
 }
 
 module.exports = {
