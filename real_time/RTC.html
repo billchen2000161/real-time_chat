@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>端對端</title>
+</head>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<body>
+    <div class="page-container">
+        <div class="" id="chatarea"></div>
+        <footer class="page-footer">
+            <div class="input-group mb-3">
+                <input type="text" id="message" class="form-control" placeholder="Recipient's username"
+                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary material-icons" type="button" id="send_text">send</button>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary material-icons" type="button" id="send_file">description</button>
+                </div>
+            </div>
+        </footer>
+        <div class="user-box">
+            <video id="local-video" autoplay class="local-video"></video>
+            <video id="remote-video" autoplay class="remote-video"></video>
+            <p class="title">在線用戶</p>
+            <ul class="user-list"></ul>
+        </div>
+        <div class="mask">
+            <div class="mask-content">
+                <input class="myname" type="text" placeholder="輸入用戶名加入房間">
+                <button class="add-room">加入</button>
+            </div>
+        </div>
+        <div class="video-box">
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<!-- <script src="./javascript/RTC.js"></script> -->
+<script src="./javascript/videoroom.js"></script>
+
+</html>

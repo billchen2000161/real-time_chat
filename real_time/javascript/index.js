@@ -24,4 +24,5 @@ $("#username").on('change', (event) => {
 $('#chatlist').click((e) => {
     user.current_room = $(e.target).text();
     loadpage('./chatroom.html', 'chatroom');
+    // loadpage('./RTC.html', 'video');
 });

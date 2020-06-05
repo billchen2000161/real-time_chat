@@ -1,6 +1,7 @@
 var chatrooom = new function () {
     let component = this;
     let socket;
+    let member = [];
 
     //type 0:text 1:image_file 2:text_file
     let current_file = {
@@ -20,6 +21,7 @@ var chatrooom = new function () {
             socket.onmessage = function (event) {
                 let res_message = JSON.parse(event.data);
                 console.log(res_message)
+
                 if (res_message.type == 0) {
                     component.text_template(res_message.sender, res_message.msg);
                     return;
@@ -31,6 +33,7 @@ var chatrooom = new function () {
                 component.file_template(res_message.sender, res_message.msg, res_message.type);
 
             };
+
             socket.onopen = function (event) {
                 addnotify('connect open!!');
                 component.history_record();
@@ -68,7 +71,7 @@ var chatrooom = new function () {
                 component.file_template(element.username, element.message, element.type);
             }
         });
-        $('#chatarea').scrollTop( $('#chatarea')[0].scrollHeight);
+        $('#chatarea').scrollTop($('#chatarea')[0].scrollHeight);
     }
 
     component.send = (message, trans_type) => {
@@ -116,7 +119,7 @@ var chatrooom = new function () {
     }
 
     component.file_template = (sender, file_name, file_type) => {
-        file_type = parseInt(file_type,10);
+        file_type = parseInt(file_type, 10);
         let addimg;
         switch (file_type) {
             case 1:
@@ -173,7 +176,7 @@ var chatrooom = new function () {
 
         $(document).ready(() => {
             $("#topic").text(user.current_room);
-            
+
         });
 
         $("#message").on('keypress', async function (e) {

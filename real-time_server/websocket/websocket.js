@@ -4,6 +4,10 @@ const fs = require('fs');
 let websocket_service = require('./websocket_service');
 let db = require('../DB/repository');
 
+let Topic = {
+    Music:[]
+};
+
 var server;
 let websocketinit = () => {
     server = new WebSocket.Server({ port: 8080 });
